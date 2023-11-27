@@ -18,7 +18,7 @@ app.use(
     limit: "20mb",
   })
 );
-
+// connection with dialogflow
 app.post("/webhook", express.json() ,function (req, res) {
   const agent = new WebhookClient({ request:req, response:res });
   console.log('Dialogflow Request headers: ' + JSON.stringify(req.headers));
@@ -32,7 +32,7 @@ app.post("/webhook", express.json() ,function (req, res) {
     agent.add(`I didn't understand`);
     agent.add(`I'm sorry, can you try again?`);
   }
-
+// Response to: intent to consult (ConsultarNumero)
   async function ConsultarDBTel(agent){
     let phoneNumber = agent.parameters["phoneNumber"];
     let answer = await axios.get("https://sheet.best/api/sheets/343fc56d-7c0c-4682-babc-45c80aedd5a4/phoneNumber/"+ phoneNumber);
@@ -56,6 +56,7 @@ app.post("/webhook", express.json() ,function (req, res) {
 
 app.use("/messenger", require("./Facebook/facebookBot"));
 
+//server running
 app.get("/", (req, res) => {
   return res.send("Chatbot Funcionando 🤖🤖🤖");
 });
